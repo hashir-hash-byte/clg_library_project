@@ -11,7 +11,7 @@ function LibrarianDashboard() {
       try {
         const data = await getReports()
         console.log('Reports response:', data) // TEMPORARY: check real shape here
-        setStats(data)
+        setStats(data.reports)
       } catch (err) {
         setError('Failed to load dashboard data.')
         console.log('Get reports error:', err)
