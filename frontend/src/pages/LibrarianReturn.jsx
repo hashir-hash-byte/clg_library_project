@@ -1,17 +1,35 @@
 import React, { useState } from 'react'
+import { returnBook } from '../services/api.js'
 
 function LibrarianReturn() {
   const [studentId, setStudentId] = useState('')
   const [bookId, setBookId] = useState('')
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     if (!studentId || !bookId) {
       setMessage('❌ Please enter both Student ID and Book ID.')
       return
     }
-    setMessage(`✅ Book ID ${bookId} returned for Student ID ${studentId} (not yet saved).`)
+
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const data = await returnBook(Number(studentId), Number(bookId))
+      console.log('Return response:', data) // TEMPORARY: check real shape here
+
+      setMessage(`✅ Book ID ${bookId} returned for Student ID ${studentId}.`)
+      setStudentId('')
+      setBookId('')
+    } catch (err) {
+      setMessage('❌ Failed to return book. Please check the IDs and try again.')
+      console.log('Return error:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -26,11 +44,13 @@ function LibrarianReturn() {
           <label>Book ID</label>
           <input value={bookId} onChange={(e) => setBookId(e.target.value)} />
         </div>
-        <button type="submit">Return</button>
+        {message && <p className="neo-message">{message}</p>}
+               <button type="submit" disabled={loading}>
+          {loading ? 'Returning...' : 'Return'}
+        </button>
       </form>
-      {message && <p className="neo-message">{message}</p>}
     </div>
   )
 }
 
-export default LibrarianReturn
+export default LibrarianReturn 

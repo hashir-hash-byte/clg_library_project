@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { addBookAdmin } from '../services/api.js'
 
 function AddBook() {
   const [title, setTitle] = useState('')
@@ -10,14 +11,46 @@ function AddBook() {
   const [availableCopies, setAvailableCopies] = useState('')
   const [shelfLocation, setShelfLocation] = useState('')
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     if (!title || !isbn || !authorId || !publisherId || !categoryId || !totalCopies || !availableCopies || !shelfLocation) {
       setMessage('❌ Please fill in all fields.')
       return
     }
-    setMessage(`✅ "${title}" added (not yet saved to backend).`)
+
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const data = await addBookAdmin(
+        title,
+        isbn,
+        Number(authorId),
+        Number(publisherId),
+        Number(categoryId),
+        Number(totalCopies),
+        Number(availableCopies),
+        shelfLocation
+      )
+      console.log('Add book response:', data) // TEMPORARY: check real shape here
+
+      setMessage(`✅ "${title}" added successfully.`)
+      setTitle('')
+      setIsbn('')
+      setAuthorId('')
+      setPublisherId('')
+      setCategoryId('')
+      setTotalCopies('')
+      setAvailableCopies('')
+      setShelfLocation('')
+    } catch (err) {
+      setMessage('❌ Failed to add book. Please try again.')
+      console.log('Add book error:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -56,9 +89,11 @@ function AddBook() {
           <label>Shelf Location</label>
           <input value={shelfLocation} onChange={(e) => setShelfLocation(e.target.value)} />
         </div>
-        <button type="submit">Add Book</button>
+        {message && <p className="neo-message">{message}</p>}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Adding...' : 'Add Book'}
+        </button>
       </form>
-      {message && <p className="neo-message">{message}</p>}
     </div>
   )
 }
