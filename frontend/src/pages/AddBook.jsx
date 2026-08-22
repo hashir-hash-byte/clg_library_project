@@ -34,7 +34,7 @@ function AddBook() {
         Number(availableCopies),
         shelfLocation
       )
-      console.log('Add book response:', data) // TEMPORARY: check real shape here
+      console.log('Add book response:', data)
 
       setMessage(`✅ "${title}" added successfully.`)
       setTitle('')

@@ -310,24 +310,43 @@ body {
   font-weight: 600;
 }
 
-.dev-skip-btn {
-  width: 100%;
-  margin-top: 14px;
-  padding: 12px;
-  border: none;
-  border-radius: 12px;
-  background: #e6e7eb;
-  color: #6b6d73;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow:
-    inset 3px 3px 6px #c3c5ca,
-    inset -3px -3px 6px #ffffff;
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
-.dev-skip-btn:active {
+input,
+textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
+}
+
+.neo-split {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.neo-split-panel {
+  flex: 1;
+  min-width: 280px;
+  background: #e6e7eb;
+  border-radius: 16px;
+  padding: 24px;
   box-shadow:
-    inset 5px 5px 10px #c3c5ca,
-    inset -5px -5px 10px #ffffff;
+    6px 6px 14px #c3c5ca,
+    -6px -6px 14px #ffffff;
+}
+
+.neo-danger-btn {
+  background: #b5433a;
+  color: #fdf3f1;
+}
+
+.neo-danger-btn:active {
+  box-shadow:
+    inset 4px 4px 8px #7a2c26,
+    inset -4px -4px 8px #d05a4f;
 }
