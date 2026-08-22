@@ -1,71 +1,75 @@
-import React, { useState, useEffect } from 'react'
-import { useAuth } from '../context/AuthContext.jsx'
-import { getReports } from '../services/api.js'
+import React, { useState } from 'react'
+import { searchBooks } from '../services/api.js'
 
-function StudentDashboard() {
-  const { user } = useAuth()
-  const [stats, setStats] = useState(null)
-  const [loading, setLoading] = useState(true)
+function StudentSearch() {
+  const [keyword, setKeyword] = useState('')
+  const [results, setResults] = useState([])
+  const [searched, setSearched] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    async function fetchReports() {
-      try {
-        const data = await getReports()
-        console.log('Reports response:', data) // TEMPORARY: check real shape here
-        setStats(data.reports)
-      } catch (err) {
-        setError('Failed to load dashboard data.')
-        console.log('Get reports error:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
+  async function handleSearch(e) {
+    e.preventDefault()
 
-    fetchReports()
-  }, [])
+    setLoading(true)
+    setError('')
+
+    try {
+      const data = await searchBooks(keyword)
+      console.log('Search response (raw):', data)
+      console.log('Is it an array?', Array.isArray(data))
+
+      // DEFENSIVE: handle a few possible real shapes without crashing
+      let bookList = []
+      if (Array.isArray(data)) {
+        bookList = data
+      } else if (data && Array.isArray(data.books)) {
+        bookList = data.books
+      } else if (data && Array.isArray(data.results)) {
+        bookList = data.results
+      } else {
+        console.log('Unexpected response shape, showing nothing.')
+      }
+
+      setResults(bookList)
+      setSearched(true)
+    } catch (err) {
+      setError('Search failed. Please try again.')
+      console.log('Search error:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
-    <div className="reports-page">
-      <div className="dashboard-container">
-        <div className="welcome-strip">
-          <h1 className="welcome-heading">Welcome, {user?.fullName}!</h1>
-        </div>
+    <div className="content-page">
+      <h2>Search Book</h2>
+      <form onSubmit={handleSearch} className="neo-input-wrap">
+        <input
+          className="neo-input"
+          placeholder="Search by title..."
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        <span className="neo-input-icon">🔍</span>
+      </form>
 
-        {loading && <p>Loading dashboard...</p>}
-        {error && <p className="neo-message">{error}</p>}
+      {loading && <p className="neo-message">Searching...</p>}
+      {error && <p className="neo-message">{error}</p>}
+      {searched && !loading && results.length === 0 && (
+        <p className="neo-message">No books found.</p>
+      )}
 
-        {!loading && !error && stats && (
-          <div className="stats-grid">
-            <div className="stat-box">
-              <div className="stat-label">Total Books</div>
-              <div className="stat-value">{stats.total_books}</div>
-            </div>
-            <div className="stat-box">
-              <div className="stat-label">Total Students</div>
-              <div className="stat-value">{stats.total_students}</div>
-            </div>
-            <div className="stat-box">
-              <div className="stat-label">Borrowed Books</div>
-              <div className="stat-value">{stats.borrowed_books}</div>
-            </div>
-            <div className="stat-box">
-              <div className="stat-label">Returned Books</div>
-              <div className="stat-value">{stats.returned_books}</div>
-            </div>
-            <div className="stat-box">
-              <div className="stat-label">Available Copies</div>
-              <div className="stat-value">{stats.available_copies}</div>
-            </div>
-            <div className="stat-box">
-              <div className="stat-label">Overdue Books</div>
-              <div className="stat-value">{stats.overdue_books}</div>
-            </div>
-          </div>
-        )}
-      </div>
+      <ul className="neo-list">
+        {results.map((book, index) => (
+          <li key={book.book_id ?? book.id ?? index}>
+            {book.title ?? 'Untitled'} by {book.author_name ?? book.author ?? 'Unknown'} —{' '}
+            {(book.available_copies ?? 0) > 0 ? 'Available' : 'Checked out'}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
 
-export default StudentDashboard
+export default StudentSearch
