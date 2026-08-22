@@ -22,7 +22,8 @@ function RegisterStudent() {
 
     try {
       const data = await registerStudent(fullName, email, phone, department, password)
-      console.log('Register response:', data) // TEMPORARY: check real shape here
+      console.log('Register response:', data)
+
       setMessage(`✅ Student "${fullName}" registered successfully.`)
       setFullName('')
       setEmail('')
@@ -61,11 +62,11 @@ function RegisterStudent() {
           <label>Password</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
+        {message && <p className="neo-message">{message}</p>}
         <button type="submit" disabled={loading}>
           {loading ? 'Registering...' : 'Register Student'}
         </button>
       </form>
-      {message && <p className="neo-message">{message}</p>}
     </div>
   )
 }

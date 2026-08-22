@@ -20,6 +20,8 @@ import RegisterStudent from './pages/RegisterStudent.jsx'
 import LibrarianBorrow from './pages/LibrarianBorrow.jsx'
 import LibrarianReturn from './pages/LibrarianReturn.jsx'
 import LibrarianFines from './pages/LibrarianFines.jsx'
+import DeleteBook from './pages/DeleteBook.jsx'
+import DeleteStudent from './pages/DeleteStudent.jsx'
 
 function App() {
   return (
@@ -60,6 +62,8 @@ function App() {
           <Route path="borrow" element={<LibrarianBorrow />} />
           <Route path="return" element={<LibrarianReturn />} />
           <Route path="fines" element={<LibrarianFines />} />
+          <Route path="delete-book" element={<DeleteBook />} />
+          <Route path="delete-student" element={<DeleteStudent />} />
         </Route>
       </Routes>
     </BrowserRouter>

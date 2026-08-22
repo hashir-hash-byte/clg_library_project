@@ -1,61 +1,64 @@
-import React, { useState } from 'react'
-import { searchBooks } from '../services/api.js'
+import React, { useState, useEffect } from 'react'
+import { getReports } from '../services/api.js'
 
-function LibrarianSearch() {
-  const [keyword, setKeyword] = useState('')
-  const [results, setResults] = useState([])
-  const [searched, setSearched] = useState(false)
-  const [loading, setLoading] = useState(false)
+function LibrarianDashboard() {
+  const [stats, setStats] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  async function handleSearch(e) {
-    e.preventDefault()
-
-    setLoading(true)
-    setError('')
-
-    try {
-      const data = await searchBooks(keyword)
-      console.log('Search response:', data) // TEMPORARY: check real shape here
-      setResults(data)
-      setSearched(true)
-    } catch (err) {
-      setError('Search failed. Please try again.')
-      console.log('Search error:', err)
-    } finally {
-      setLoading(false)
+  useEffect(() => {
+    async function fetchReports() {
+      try {
+        const data = await getReports()
+        console.log('Reports response:', data) // TEMPORARY: check real shape here
+        setStats(data.reports)
+      } catch (err) {
+        setError('Failed to load dashboard data.')
+        console.log('Get reports error:', err)
+      } finally {
+        setLoading(false)
+      }
     }
-  }
+
+    fetchReports()
+  }, [])
+
+  if (loading) return <div className="reports-page"><p>Loading dashboard...</p></div>
+  if (error) return <div className="reports-page"><p className="neo-message">{error}</p></div>
 
   return (
-    <div className="content-page">
-      <h2>Search Book</h2>
-      <form onSubmit={handleSearch} className="neo-input-wrap">
-        <input
-          className="neo-input"
-          placeholder="Search by title..."
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-        />
-        <span className="neo-input-icon">🔍</span>
-      </form>
-
-      {loading && <p className="neo-message">Searching...</p>}
-      {error && <p className="neo-message">{error}</p>}
-      {searched && !loading && results.length === 0 && (
-        <p className="neo-message">No books found.</p>
-      )}
-
-      <ul className="neo-list">
-        {results.map((book) => (
-          <li key={book.book_id}>
-            {book.title} by {book.author_name} —{' '}
-            {book.available_copies > 0 ? 'Available' : 'Checked out'}
-          </li>
-        ))}
-      </ul>
+    <div className="reports-page">
+      <div className="dashboard-container">
+        <h2>Librarian Dashboard</h2>
+        <div className="stats-grid">
+          <div className="stat-box">
+            <div className="stat-label">Total Books</div>
+            <div className="stat-value">{stats.total_books}</div>
+          </div>
+          <div className="stat-box">
+            <div className="stat-label">Total Students</div>
+            <div className="stat-value">{stats.total_students}</div>
+          </div>
+          <div className="stat-box">
+            <div className="stat-label">Borrowed Books</div>
+            <div className="stat-value">{stats.borrowed_books}</div>
+          </div>
+          <div className="stat-box">
+            <div className="stat-label">Returned Books</div>
+            <div className="stat-value">{stats.returned_books}</div>
+          </div>
+          <div className="stat-box">
+            <div className="stat-label">Available Copies</div>
+            <div className="stat-value">{stats.available_copies}</div>
+          </div>
+          <div className="stat-box">
+            <div className="stat-label">Overdue Books</div>
+            <div className="stat-value">{stats.overdue_books}</div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default LibrarianSearch
+export default LibrarianDashboard
