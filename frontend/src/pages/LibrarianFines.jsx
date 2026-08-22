@@ -19,9 +19,15 @@ function LibrarianFines() {
 
     try {
       const data = await calculateFine(Number(studentId), Number(bookId))
-      console.log('Fine response:', data) // TEMPORARY: check real shape here
+      console.log('Fine response (raw):', data)
 
-      setResult(`⚠️ Overdue by ${data.overdue_days} day(s) — Fine Amount: ₹${data.fine_amount}`)
+      // Unwrap common possible wrapper shapes, same pattern as /reports
+      const fineData = data.fine || data.result || data
+
+      const days = fineData.overdue_days ?? fineData.days_overdue ?? fineData.days ?? 'N/A'
+      const amount = fineData.fine_amount ?? fineData.amount ?? fineData.fine ?? 'N/A'
+
+      setResult(`⚠️ Overdue by ${days} day(s) — Fine Amount: ₹${amount}`)
     } catch (err) {
       setResult('❌ Failed to calculate fine. Please check the IDs and try again.')
       console.log('Fine error:', err)
