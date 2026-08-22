@@ -1,17 +1,33 @@
 import React, { useState } from 'react'
+import { calculateFine } from '../services/api.js'
 
 function LibrarianFines() {
   const [studentId, setStudentId] = useState('')
   const [bookId, setBookId] = useState('')
   const [result, setResult] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     if (!studentId || !bookId) {
       setResult('❌ Please enter both Student ID and Book ID.')
       return
     }
-    setResult('⚠️ Overdue by 3 day(s) — Fine Amount: ₹30 (fake data)')
+
+    setLoading(true)
+    setResult('')
+
+    try {
+      const data = await calculateFine(Number(studentId), Number(bookId))
+      console.log('Fine response:', data) // TEMPORARY: check real shape here
+
+      setResult(`⚠️ Overdue by ${data.overdue_days} day(s) — Fine Amount: ₹${data.fine_amount}`)
+    } catch (err) {
+      setResult('❌ Failed to calculate fine. Please check the IDs and try again.')
+      console.log('Fine error:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -26,7 +42,9 @@ function LibrarianFines() {
           <label>Book ID</label>
           <input value={bookId} onChange={(e) => setBookId(e.target.value)} />
         </div>
-        <button type="submit">Calculate</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Calculating...' : 'Calculate'}
+        </button>
       </form>
       {result && <p className="neo-message">{result}</p>}
     </div>

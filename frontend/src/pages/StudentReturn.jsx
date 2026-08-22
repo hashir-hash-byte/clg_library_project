@@ -1,16 +1,35 @@
 import React, { useState } from 'react'
+import { returnBook } from '../services/api.js'
+import { useAuth } from '../context/AuthContext.jsx'
 
 function StudentReturn() {
   const [bookId, setBookId] = useState('')
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { user } = useAuth()
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     if (!bookId) {
       setMessage('❌ Please enter a Book ID.')
       return
     }
-    setMessage(`✅ Book ID ${bookId} returned (not yet saved to backend).`)
+
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const data = await returnBook(user.studentId, Number(bookId))
+      console.log('Return response:', data) // TEMPORARY: check real shape here
+
+      setMessage(`✅ Book ID ${bookId} returned successfully.`)
+      setBookId('')
+    } catch (err) {
+      setMessage('❌ Failed to return book. Please check the Book ID and try again.')
+      console.log('Return error:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -21,9 +40,11 @@ function StudentReturn() {
           <label>Book ID</label>
           <input value={bookId} onChange={(e) => setBookId(e.target.value)} />
         </div>
-        <button type="submit">Return</button>
+        {message && <p className="neo-message">{message}</p>}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Returning...' : 'Return'}
+        </button>
       </form>
-      {message && <p className="neo-message">{message}</p>}
     </div>
   )
 }

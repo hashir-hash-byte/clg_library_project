@@ -144,6 +144,25 @@ body {
   font-weight: 700;
   color: #1a1a1a;
 }
+.welcome-strip {
+  width: 100%;
+  padding: 18px 28px;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  background: #e6e7eb;
+  box-shadow:
+    6px 6px 14px #c3c5ca,
+    -6px -6px 14px #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.welcome-heading {
+  font-size: clamp(18px, 2.4vw, 26px);
+  font-weight: 700;
+  color: #2b2d33;
+  margin: 0;
+}
 
 /* ===== Content pages (View Books, Search, Borrow, Return, Fines, Add Book, Register Student) ===== */
 .content-page {
@@ -289,4 +308,26 @@ body {
   font-size: 14px;
   color: #1a1a1a;
   font-weight: 600;
+}
+
+.dev-skip-btn {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #e6e7eb;
+  color: #6b6d73;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow:
+    inset 3px 3px 6px #c3c5ca,
+    inset -3px -3px 6px #ffffff;
+}
+
+.dev-skip-btn:active {
+  box-shadow:
+    inset 5px 5px 10px #c3c5ca,
+    inset -5px -5px 10px #ffffff;
 }

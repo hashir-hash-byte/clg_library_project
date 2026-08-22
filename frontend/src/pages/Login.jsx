@@ -27,7 +27,7 @@ function Login() {
 
     try {
       const data = await loginUser(email, password, role)
-      console.log('Login response:', data) // TEMPORARY: check real shape here
+      console.log('Login response:', data)
 
       login({
         role: role,
@@ -46,6 +46,23 @@ function Login() {
       console.log('Login error:', err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  // TEMPORARY DEV-ONLY: bypasses real login so pages can be tested
+  // without a working backend connection. Remove before real deployment.
+  function handleDevSkip() {
+    login({
+      role: role,
+      studentId: 1,
+      fullName: role === 'student' ? 'Test Student' : 'Test Librarian',
+      email: 'dev@test.com',
+    })
+
+    if (role === 'student') {
+      navigate('/student/dashboard')
+    } else {
+      navigate('/librarian/dashboard')
     }
   }
 
@@ -96,6 +113,25 @@ function Login() {
             {loading ? 'Logging in...' : 'Log in'}
           </button>
         </form>
+
+        {/* TEMPORARY DEV-ONLY BUTTON — remove before real deployment */}
+        <button
+          type="button"
+          onClick={handleDevSkip}
+          style={{
+            marginTop: 12,
+            width: '100%',
+            background: 'transparent',
+            border: '1px dashed #999',
+            color: '#666',
+            padding: 10,
+            borderRadius: 10,
+            cursor: 'pointer',
+            fontSize: 13,
+          }}
+        >
+          Skip Login (Dev Only)
+        </button>
       </div>
     </div>
   )
