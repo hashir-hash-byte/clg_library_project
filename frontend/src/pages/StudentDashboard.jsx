@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { getReports } from '../services/api.js'
+import ThemeToggle from '../components/ThemeToggle.jsx'
 
 function StudentDashboard() {
   const { user } = useAuth()
@@ -30,6 +31,7 @@ function StudentDashboard() {
       <div className="dashboard-container">
         <div className="welcome-strip">
           <h1 className="welcome-heading">Welcome, {user?.fullName}!</h1>
+          <ThemeToggle />
         </div>
 
         {loading && <p>Loading dashboard...</p>}

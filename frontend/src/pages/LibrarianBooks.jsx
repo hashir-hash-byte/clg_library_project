@@ -35,6 +35,7 @@ function LibrarianBooks() {
             <tr>
               <th>Book Name</th>
               <th>Book ID</th>
+              <th>Shelf Location</th>
               <th>Copies Available</th>
             </tr>
           </thead>
@@ -43,6 +44,7 @@ function LibrarianBooks() {
               <tr key={book.book_id}>
                 <td>{book.title}</td>
                 <td>{book.book_id}</td>
+                <td>{book.shelf_location}</td>
                 <td>
                   <span className={`neo-badge ${book.available_copies > 0 ? 'available' : 'unavailable'}`}>
                     {book.available_copies}
