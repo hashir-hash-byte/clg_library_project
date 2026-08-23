@@ -23,20 +23,36 @@ function LibrarianBooks() {
     fetchBooks()
   }, [])
 
-  if (loading) return <div className="content-page"><p>Loading books...</p></div>
+  if (loading) return <div className="content-page"><p className="neo-message">Loading books...</p></div>
   if (error) return <div className="content-page"><p className="neo-message">{error}</p></div>
 
   return (
     <div className="content-page">
       <h2>All Books</h2>
-      <ul className="neo-list">
-        {books.map((book) => (
-          <li key={book.book_id}>
-            {book.title} by {book.author_name} —{' '}
-            {book.available_copies > 0 ? 'Available' : 'Checked out'}
-          </li>
-        ))}
-      </ul>
+      <div className="neo-table-wrap">
+        <table className="neo-table">
+          <thead>
+            <tr>
+              <th>Book Name</th>
+              <th>Book ID</th>
+              <th>Copies Available</th>
+            </tr>
+          </thead>
+          <tbody>
+            {books.map((book) => (
+              <tr key={book.book_id}>
+                <td>{book.title}</td>
+                <td>{book.book_id}</td>
+                <td>
+                  <span className={`neo-badge ${book.available_copies > 0 ? 'available' : 'unavailable'}`}>
+                    {book.available_copies}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
