@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-baseURL: 'https://clinic-paycheck-taco.ngrok-free.dev',
+  baseURL: 'http://127.0.0.1:8000',
 })
 
 // ---- AUTH ----
@@ -127,6 +127,11 @@ export async function calculateFine(studentId, bookId) {
     student_id: studentId,
     book_id: bookId,
   })
+  return response.data
+}
+
+export async function getStudentFines(studentId) {
+  const response = await api.get(`/students/${studentId}/fines`)
   return response.data
 }
 
