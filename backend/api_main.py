@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.api.auth_api import router as auth_router
 from backend.api.books_api import router as books_router
 from backend.api.students_api import router as students_router
+from backend.api.student_fine_api import router as student_fine_router
 from backend.api.borrow_api import router as borrow_router
 from backend.api.return_api import router as return_router
 from backend.api.fine_api import router as fine_router
@@ -33,5 +34,6 @@ app.include_router(borrow_router)
 app.include_router(return_router)
 app.include_router(fine_router)
 app.include_router(search_router)
+app.include_router(student_fine_router)
 app.include_router(reports_router)
 app.include_router(admin_router)
