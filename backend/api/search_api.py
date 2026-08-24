@@ -19,7 +19,8 @@ def search_books(keyword: str):
                 b.title,
                 a.author_name,
                 c.category_name,
-                b.available_copies
+                b.available_copies,
+                b.shelf_location
             FROM books b
             JOIN authors a
                 ON b.author_id = a.author_id
@@ -47,7 +48,8 @@ def search_books(keyword: str):
                 "title": book[1],
                 "author_name": book[2],
                 "category_name": book[3],
-                "available_copies": book[4]
+                "available_copies": book[4],
+                "shelf_location": book[5]
             })
 
         return {

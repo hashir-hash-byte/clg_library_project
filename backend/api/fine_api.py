@@ -1,6 +1,6 @@
 from datetime import date
 
-from fastapi import  APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from backend.database.connection import get_connection
@@ -44,7 +44,34 @@ def calculate_fine(data: FineRequest):
 
         borrow_id, due_date, return_date, status = record
 
-        # If not returned, calculate fine up to today
+        # Check if a fine already exists for this borrow record
+        cur.execute(
+            """
+            SELECT fine_id, amount, paid
+            FROM fines
+            WHERE borrow_id = %s
+            ORDER BY fine_id DESC
+            LIMIT 1
+            """,
+            (borrow_id,)
+        )
+
+        existing_fine = cur.fetchone()
+
+        if existing_fine is not None:
+            fine_id, amount, paid = existing_fine
+            return {
+                "success": True,
+                "student_id": data.student_id,
+                "book_id": data.book_id,
+                "borrow_id": borrow_id,
+                "fine_id": fine_id,
+                "fine_amount": float(amount),
+                "paid": paid,
+                "message": f"Fine on record: ₹{amount} ({'Paid' if paid else 'Unpaid'})"
+            }
+
+        # No stored fine found — calculate live from due_date
         if return_date is None:
             return_date = date.today()
 
@@ -85,4 +112,3 @@ def calculate_fine(data: FineRequest):
     finally:
         cur.close()
         conn.close()
-

@@ -12,7 +12,8 @@ def search_book():
             b.title,
             a.author_name,
             c.category_name,
-            b.available_copies
+            b.available_copies,
+            b.shelf_location
         FROM books b
         JOIN authors a
             ON b.author_id = a.author_id
@@ -31,10 +32,12 @@ def search_book():
                 f"{book[1]} | "
                 f"{book[2]} | "
                 f"{book[3]} | "
-                f"Available: {book[4]}"
+                f"Available: {book[4]} | "
+                f"Shelf: {book[5] if book[5] else 'N/A'}"
             )
     else:
         print("\n❌ No books found.")
 
     cursor.close()
     conn.close()
+    

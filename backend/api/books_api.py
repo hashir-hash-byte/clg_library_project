@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from backend.database.connection import get_connection
 
 
-router  = APIRouter()
+router = APIRouter()
 
 
 # Data required when creating a new book
@@ -13,6 +13,7 @@ class BookCreate(BaseModel):
     isbn: str
     total_copies: int
     available_copies: int
+    shelf_location: str
 
 
 # Get all books
@@ -51,7 +52,7 @@ def get_book(book_id: int):
     if row is None:
         cur.close()
         conn.close()
-        return {"error": "Book not found"}
+        return {"success": False, "message": "Book not found"}
 
     columns = [desc[0] for desc in cur.description]
 
@@ -71,15 +72,16 @@ def create_book(book: BookCreate):
 
     cur.execute("""
         INSERT INTO books
-        (title, author_ID, isbn, total_copies, available_copies)
-        VALUES (%s, %s, %s, %s, %s)
+        (title, author_ID, isbn, total_copies, available_copies, shelf_location)
+        VALUES (%s, %s, %s, %s, %s, %s)
         RETURNING book_id
     """, (
         book.title,
         book.author_ID,
         book.isbn,
         book.total_copies,
-        book.available_copies
+        book.available_copies,
+        book.shelf_location
     ))
 
     book_id = cur.fetchone()[0]
@@ -94,31 +96,9 @@ def create_book(book: BookCreate):
         "message": "Book added successfully",
         "book_id": book_id
     }
-@router.get("/books/{book_id}")
-def get_book(book_id: int):
-    conn = get_connection()
-    cur = conn.cursor()
 
-    cur.execute(
-        "SELECT * FROM books WHERE book_id = %s",
-        (book_id,)
-    )
 
-    row = cur.fetchone()
-
-    if row is None:
-        cur.close()
-        conn.close()
-        return {"success": False, "message": "Book not found"}
-
-    columns = [desc[0] for desc in cur.description]
-    book = dict(zip(columns, row))
-
-    cur.close()
-    conn.close()
-
-    return book
-
+# Update an existing book
 @router.put("/books/{book_id}")
 def update_book(book_id: int, book: BookCreate):
     conn = get_connection()
@@ -131,7 +111,8 @@ def update_book(book_id: int, book: BookCreate):
             author_ID = %s,
             isbn = %s,
             total_copies = %s,
-            available_copies = %s
+            available_copies = %s,
+            shelf_location = %s
         WHERE book_id = %s
         RETURNING book_id
         """,
@@ -141,6 +122,7 @@ def update_book(book_id: int, book: BookCreate):
             book.isbn,
             book.total_copies,
             book.available_copies,
+            book.shelf_location,
             book_id
         )
     )
@@ -163,6 +145,9 @@ def update_book(book_id: int, book: BookCreate):
         "message": "Book updated successfully",
         "book_id": result[0]
     }
+
+
+# Delete a book
 @router.delete("/books/{book_id}")
 def delete_book(book_id: int):
     conn = get_connection()

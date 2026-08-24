@@ -11,7 +11,8 @@ def view_books():
             b.title,
             a.author_name,
             c.category_name,
-            b.available_copies
+            b.available_copies,
+            b.shelf_location
         FROM books b
         JOIN authors a
             ON b.author_id = a.author_id
@@ -30,7 +31,8 @@ def view_books():
             f"Title: {book[1]} | "
             f"Author: {book[2]} | "
             f"Category: {book[3]} | "
-            f"Available: {book[4]}"
+            f"Available: {book[4]} | "
+            f"Shelf: {book[5] if book[5] else 'N/A'}"
         )
 
     cursor.close()
