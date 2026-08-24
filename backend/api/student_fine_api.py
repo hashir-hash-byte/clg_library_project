@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+from datetime import date
 from backend.database.connection import get_connection
 
 router = APIRouter()
@@ -69,7 +70,7 @@ def get_student_fines(student_id: int):
 
             # If book is still borrowed, calculate until today
             if return_date is None:
-                end_date = __import__("datetime").date.today()
+                end_date = date.today()
             else:
                 end_date = return_date
 
