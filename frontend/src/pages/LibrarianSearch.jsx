@@ -64,6 +64,8 @@ function LibrarianSearch() {
         {results.map((book, index) => (
           <li key={book.book_id ?? book.id ?? index}>
             {book.title ?? 'Untitled'} by {book.author_name ?? book.author ?? 'Unknown'} —{' '}
+            ID: {book.book_id ?? book.id ?? 'N/A'} — Shelf: {book.shelf_location ?? 'N/A'} —{' '}
+            Copies: {book.available_copies ?? 0} —{' '}
             {(book.available_copies ?? 0) > 0 ? 'Available' : 'Checked out'}
           </li>
         ))}

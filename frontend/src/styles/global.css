@@ -350,3 +350,257 @@ textarea {
     inset 4px 4px 8px #7a2c26,
     inset -4px -4px 8px #d05a4f;
 }
+
+/* Neomorphic table (book lists, etc.) */
+.neo-table-wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #e6e7eb;
+  border-radius: 20px;
+  padding: 8px;
+  box-shadow:
+    12px 12px 24px #c3c5ca,
+    -12px -12px 24px #ffffff;
+  overflow-x: auto;
+}
+
+.neo-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.neo-table thead th {
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #55585f;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.neo-table tbody tr td {
+  padding: 14px 20px;
+  font-size: 14px;
+  color: #1a1a1a;
+  background: #e6e7eb;
+}
+
+.neo-table tbody tr td:first-child {
+  border-radius: 12px 0 0 12px;
+}
+
+.neo-table tbody tr td:last-child {
+  border-radius: 0 12px 12px 0;
+}
+
+.neo-table tbody tr {
+  box-shadow:
+    4px 4px 10px #c3c5ca,
+    -4px -4px 10px #ffffff;
+}
+
+.neo-table tbody tr + tr {
+  margin-top: 8px;
+}
+
+.neo-table tbody tr td {
+  border-top: 6px solid transparent;
+}
+
+.neo-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.neo-badge.available {
+  background: #dfe9df;
+  color: #3a6b3a;
+}
+
+.neo-badge.unavailable {
+  background: #ecdfdf;
+  color: #8b3a3a;
+}
+
+/* ===================== DARK THEME ===================== */
+
+[data-theme='dark'] body {
+  background-color: #2a2a2e;
+  color: #e4e4e7;
+}
+
+[data-theme='dark'] .reports-page,
+[data-theme='dark'] .content-page {
+  background: #2a2a2e;
+}
+
+[data-theme='dark'] .dashboard-container {
+  background: #2a2a2e;
+  box-shadow:
+    12px 12px 24px #17171a,
+    -12px -12px 24px #3a3a40;
+}
+
+[data-theme='dark'] .dashboard-container h2,
+[data-theme='dark'] .content-page h2 {
+  color: #e4e4e7;
+}
+
+[data-theme='dark'] .stat-box {
+  background: #2a2a2e;
+  box-shadow:
+    6px 6px 14px #17171a,
+    -6px -6px 14px #3a3a40;
+}
+
+[data-theme='dark'] .stat-box .stat-label {
+  color: #a0a0a8;
+}
+
+[data-theme='dark'] .stat-box .stat-value {
+  color: #e4e4e7;
+}
+
+[data-theme='dark'] .welcome-strip {
+  background: #2a2a2e;
+  box-shadow:
+    6px 6px 14px #17171a,
+    -6px -6px 14px #3a3a40;
+}
+
+[data-theme='dark'] .welcome-heading {
+  color: #e4e4e7;
+}
+
+[data-theme='dark'] .neo-input {
+  background: #2a2a2e;
+  color: #e4e4e7;
+  box-shadow:
+    6px 6px 14px #17171a,
+    -6px -6px 14px #3a3a40;
+}
+
+[data-theme='dark'] .neo-input::placeholder {
+  color: #7a7a82;
+}
+
+[data-theme='dark'] .neo-form {
+  background: #2a2a2e;
+  box-shadow:
+    12px 12px 24px #17171a,
+    -12px -12px 24px #3a3a40;
+}
+
+[data-theme='dark'] .neo-form label {
+  color: #e4e4e7;
+}
+
+[data-theme='dark'] .neo-form input,
+[data-theme='dark'] .neo-form select {
+  background: #2a2a2e;
+  color: #e4e4e7;
+  box-shadow:
+    inset 5px 5px 10px #17171a,
+    inset -5px -5px 10px #3a3a40;
+}
+
+[data-theme='dark'] .neo-form input::placeholder {
+  color: #7a7a82;
+}
+
+[data-theme='dark'] .neo-form button {
+  background: #e4e4e7;
+  color: #1a1a1a;
+  box-shadow:
+    6px 6px 14px #17171a,
+    -6px -6px 14px #3a3a40;
+}
+
+[data-theme='dark'] .neo-list li {
+  background: #2a2a2e;
+  color: #e4e4e7;
+  box-shadow:
+    6px 6px 14px #17171a,
+    -6px -6px 14px #3a3a40;
+}
+
+[data-theme='dark'] .neo-message {
+  color: #e4e4e7;
+}
+
+[data-theme='dark'] .neo-split-panel {
+  background: #2a2a2e;
+  box-shadow:
+    6px 6px 14px #17171a,
+    -6px -6px 14px #3a3a40;
+}
+
+[data-theme='dark'] .neo-table-wrap {
+  background: #2a2a2e;
+  box-shadow:
+    12px 12px 24px #17171a,
+    -12px -12px 24px #3a3a40;
+}
+
+[data-theme='dark'] .neo-table thead th {
+  color: #a0a0a8;
+}
+
+[data-theme='dark'] .neo-table tbody tr td {
+  background: #2a2a2e;
+  color: #e4e4e7;
+}
+
+[data-theme='dark'] .neo-table tbody tr {
+  box-shadow:
+    4px 4px 10px #17171a,
+    -4px -4px 10px #3a3a40;
+}
+
+[data-theme='dark'] .neo-badge.available {
+  background: #1e3a24;
+  color: #6fcf82;
+}
+
+[data-theme='dark'] .neo-badge.unavailable {
+  background: #3a1e1e;
+  color: #e08585;
+}
+
+/* ===================== THEME TOGGLE BUTTON ===================== */
+
+.neo-theme-toggle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #1a1a1a;
+  color: #ffffff;
+  box-shadow:
+    6px 6px 12px #c3c5ca,
+    -6px -6px 12px #ffffff;
+  margin-left: auto;
+}
+
+.neo-theme-toggle:active {
+  box-shadow:
+    inset 3px 3px 6px #00000055,
+    inset -3px -3px 6px #ffffff33;
+}
+
+[data-theme='dark'] .neo-theme-toggle {
+  background: #e4e4e7;
+  color: #1a1a1a;
+  box-shadow:
+    6px 6px 12px #17171a,
+    -6px -6px 12px #3a3a40;
+}
