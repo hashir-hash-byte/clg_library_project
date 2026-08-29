@@ -604,3 +604,107 @@ textarea {
     6px 6px 12px #17171a,
     -6px -6px 12px #3a3a40;
 }
+
+/* ===================== RESPONSIVE (scale-based, minor tweaks only) ===================== */
+
+@media (max-width: 900px) {
+  .dashboard-container {
+    padding: 3vh 4vw;
+    border-radius: 18px;
+  }
+
+  .stats-grid {
+    gap: 1.6vh 3vw;
+  }
+
+  .neo-form {
+    max-width: 90%;
+    padding: 24px;
+  }
+
+  .neo-table-wrap,
+  .neo-list,
+  .neo-input-wrap {
+    max-width: 90%;
+  }
+
+  .top-nav {
+    padding: 12px 14px 16px;
+  }
+
+  .nav-tab {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 600px) {
+  .content-page {
+    padding: 24px 16px;
+  }
+
+  .reports-page {
+    height: auto;
+    min-height: calc(100vh - 60px);
+    padding: 12px;
+  }
+
+  .dashboard-container {
+    height: auto;
+    padding: 3vh 5vw;
+    border-radius: 16px;
+  }
+
+  .stat-box {
+    padding: 16px;
+    min-height: 90px;
+  }
+
+  .welcome-heading {
+    font-size: 18px;
+  }
+
+  .neo-theme-toggle {
+    width: 60px;
+    height: 60px;
+    font-size: 12px;
+  }
+
+  .neo-form {
+    max-width: 100%;
+    padding: 20px;
+    gap: 14px;
+  }
+
+  .neo-table-wrap,
+  .neo-list,
+  .neo-input-wrap {
+    max-width: 100%;
+  }
+
+  .neo-table thead th,
+  .neo-table tbody tr td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .neo-list li {
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+
+  .neo-split-panel {
+    min-width: 0;
+    padding: 18px;
+  }
+
+  .top-nav {
+    padding: 10px 10px 14px;
+    gap: 4px;
+  }
+
+  .nav-tab {
+    padding: 8px 12px;
+    font-size: 12.5px;
+  }
+}
