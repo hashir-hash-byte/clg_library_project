@@ -4,6 +4,7 @@ import Login from './pages/Login.jsx'
 import ProtectedRoute from './routes/ProtectedRoute.jsx'
 import StudentLayout from './components/StudentLayout.jsx'
 import LibrarianLayout from './components/LibrarianLayout.jsx'
+import ScaleWrapper from './components/ScaleWrapper.jsx'
 
 import StudentDashboard from './pages/StudentDashboard.jsx'
 import StudentSearch from './pages/StudentSearch.jsx'
